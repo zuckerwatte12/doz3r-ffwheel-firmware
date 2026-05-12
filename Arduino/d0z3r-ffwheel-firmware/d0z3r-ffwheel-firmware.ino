@@ -486,7 +486,7 @@ void MenuOperations() {
       operationMode = 0;
   }
 
-  // 处理不同菜单层级
+  // Handle different menu levels
   if (menuLevel == 1) {
     if (menuLevel != oldMenuLevel){
       oled.clear();
