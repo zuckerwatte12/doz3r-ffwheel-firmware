@@ -6,6 +6,29 @@ This is a modified version of the Steering PAD 900-F v3.2 firmware by HomeGameCo
 - Printables: https://www.printables.com/model/1223875-steering-pad-900-f
 - YouTube: @HomeGameCoderBuilds
 
+### Assetto Corsa Direct Drive Force Feedback
+
+**This firmware is specifically designed to work with Assetto Corsa (and other racing simulators) with direct force feedback from the game to the motor.** The device operates in **direct drive mode** where the motor receives force feedback commands directly from the game via USB HID protocol.
+
+**How it works:**
+- The Arduino Pro Micro identifies as a **Logitech G29** (or optionally Thrustmaster T300RS in alt mode) over USB
+- Games like Assetto Corsa send FFB commands through the standard USB HID interface
+- The firmware reads these force commands using `Joystick.getForce()` from the ArduinoJoystickWithFFBLibrary
+- Forces are applied to the motor in **real-time** with configurable gain, deadzone, and damping
+- The motor responds to every bump, kerb, oversteer, and road surface change sent by the game
+- **900° rotation range** with hard software limits to prevent over-rotation
+- Low latency response ensures realistic feel for racing simulation
+
+**Key FFB features:**
+- Pure direct drive mode (no artificial centering spring)
+- Adjustable gain (0.1–20.0x multiplier)
+- Configurable deadzone (0–50) to prevent motor drift from small forces
+- Optional damping (0–30) to reduce free-spinning
+- Force inversion toggle for correct directional feel
+- Max torque limiter (50–250) to protect motor and prevent excessive forces
+
+This makes the wheel suitable for competitive sim racing in Assetto Corsa, providing direct feedback from the physics engine to your hands.
+
 ---
 
 ## Hardware Configuration
