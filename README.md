@@ -1,5 +1,13 @@
 # Steering PAD 900-F — Custom Firmware Notes
 
+## Video Demo
+
+[![Drifting in Assetto Corsa with DIY Force Feedback Wheel](https://img.youtube.com/vi/a-UPCigjC2w/maxresdefault.jpg)](https://www.youtube.com/shorts/a-UPCigjC2w)
+
+**Watch the wheel in action:** This video demonstrates the force feedback system working in real-time during drift maneuvers in Assetto Corsa. Notice how the steering wheel returns by itself as the car countersteers through the drift — this is not spring-centering, but **actual force feedback controlled by Assetto Corsa's physics engine**. The game calculates tire forces and sends them directly to the motor, creating realistic self-aligning torque just like a real car.
+
+---
+
 ## Overview
 
 This is a modified version of the Steering PAD 900-F v3.2 firmware by HomeGameCoder, adapted for a specific hardware unit with non-standard wiring. The original project is available at:
@@ -165,6 +173,37 @@ The T button (threshold 238) does not register reliably on this unit due to a ha
 - T button (threshold 238) does not trigger menu on this unit — remapped to third row left button as workaround
 - Firmware is at ~99% program storage — no additional debug code can be added without removing existing features
 - FFB shows 0 until steering calibration is completed
+
+---
+
+## Detailed Build Information
+
+### 🔧 Hardware
+
+Based on the Steering PAD 900-F (https://www.printables.com/model/1223875-steering-pad-900-f) with the following setup:
+- Arduino Pro Micro (ATmega32U4, 5V 16MHz)
+- RF-300CA motor with DRV8838 motor driver for force feedback
+- ADS1115 16-bit ADC for steering sensor reading via Hall effect sensors (49E)
+- SSD1306 OLED display for on-device menu and calibration
+- USB powered — no external power supply needed
+
+### 💾 Firmware Improvements
+
+Custom firmware fork with the following improvements over the original V3.2:
+- **AceWire fast I2C library** replaces the standard Wire library for more reliable ADS1115 steering sensor communication
+- **Remapped ADS1115 channels** to match the actual PCB wiring of this unit
+- **Corrected analog pin order** for the button matrix
+- **Alternative menu controls** for compatibility with this hardware variant
+- **USB device spoofing** — registers as a Logitech steering wheel (VID 0x046d) for maximum game compatibility, including games that only detect known brands
+- **Full DirectInput force feedback support** via ArduinoJoystickWithFFBLibrary
+- **Spring, damper, inertia and friction effects** with tunable parameters
+- **11-point steering linearity correction LUT** for accurate 900° range
+- **Pedal linearity curves:** Linear, Ease In, Ease Out per pedal independently
+- **On-device calibration menu** for steering wheel and both pedals — no PC software needed
+
+### 🎮 Game Compatibility
+
+Tested in **Assetto Corsa** running on Parallels (Windows 11 ARM) on Apple MacBook M4. Force feedback works natively through DirectInput. The wheel spoofs as a Logitech device which improves detection in games that whitelist specific controllers.
 
 ---
 
